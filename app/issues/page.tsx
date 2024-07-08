@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import db from "@/prisma/client";
+import { Badge } from "@/components/ui/badge";
+import IssueBadge from "@/components/issue-badge";
 
 export default async function IssuesPage() {
   const issues = await db.issue.findMany();
@@ -37,7 +39,7 @@ export default async function IssuesPage() {
                 <div className="block md:hidden">{issue.status}</div>
               </TableCell>
               <TableCell className="hidden md:table-cell">
-                {issue.status}
+                <IssueBadge status={issue.status} />
               </TableCell>
               <TableCell className="hidden md:table-cell">
                 {issue.createdAt.toDateString()}
