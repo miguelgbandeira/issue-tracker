@@ -10,11 +10,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import db from "@/prisma/client";
-import { Badge } from "@/components/ui/badge";
 import IssueBadge from "@/components/issue-badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Suspense } from "react";
+import delay from "delay";
 
 export default async function IssuesPage() {
-  const issues = await db.issue.findMany();
   return (
     <>
       <div>
@@ -22,6 +23,18 @@ export default async function IssuesPage() {
           <Link href={"/issues/new"}>New Issue</Link>
         </Button>
       </div>
+      <Suspense fallback={<TableSkeleton />}>
+        <TableSuspense />
+      </Suspense>
+    </>
+  );
+}
+
+async function TableSuspense() {
+  const issues = await db.issue.findMany();
+  await delay(2000);
+  return (
+    <>
       <Table>
         <TableCaption>A list of the issues.</TableCaption>
         <TableHeader>
@@ -46,6 +59,69 @@ export default async function IssuesPage() {
               </TableCell>
             </TableRow>
           ))}
+        </TableBody>
+      </Table>
+    </>
+  );
+}
+
+function TableSkeleton() {
+  return (
+    <>
+      <Table>
+        <TableCaption>A list of the issues.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Issue</TableHead>
+            <TableHead className="hidden md:table-cell">Status</TableHead>
+            <TableHead className="hidden md:table-cell">Created</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell className="font-medium">
+              <Skeleton className="w-96 h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-20 h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-60 h-[20px]" />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">
+              <Skeleton className="w-96  h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-20 h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-60 h-[20px]" />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">
+              <Skeleton className="w-96  h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-20 h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-60 h-[20px]" />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">
+              <Skeleton className="w-96  h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-20 h-[20px]" />
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+              <Skeleton className="w-60 h-[20px]" />
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </>
