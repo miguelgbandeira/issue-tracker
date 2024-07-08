@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const newIssue = await db.invoice.create({
+  const newIssue = await db.issue.create({
     data: {
       title: body.title,
       description: body.description,

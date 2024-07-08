@@ -14,7 +14,7 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model Invoice {
+model Issue {
   id          String   @id @default(cuid())
   title       String   @db.VarChar(255)
   description String   @db.Text
