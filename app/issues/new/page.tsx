@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { createIssueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2 } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -29,7 +28,7 @@ export default function NewIssuePage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (data: IssueForm) => {
+  const onSubmit = form.handleSubmit(async (data) => {
     try {
       setIsSubmitting(true);
       const response = await fetch("/api/issues", {
@@ -49,13 +48,10 @@ export default function NewIssuePage() {
       setIsSubmitting(false);
       console.error("Error submitting the issue:", error);
     }
-  };
+  });
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="max-w-xl space-y-4"
-      >
+      <form onSubmit={onSubmit} className="max-w-xl space-y-4">
         <FormField
           control={form.control}
           name="title"
