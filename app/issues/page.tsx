@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+
 export default function IssuesPage() {
-  return <div>IssuesPage</div>;
+  return <Button>New issue</Button>;
 }
