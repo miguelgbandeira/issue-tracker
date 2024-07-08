@@ -2,13 +2,14 @@
 
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLoading } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { createIssueSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { Loader2 } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -17,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
@@ -25,9 +27,11 @@ export default function NewIssuePage() {
     resolver: zodResolver(createIssueSchema),
   });
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (data: IssueForm) => {
     try {
+      setIsSubmitting(true);
       const response = await fetch("/api/issues", {
         method: "POST",
         headers: {
@@ -42,6 +46,7 @@ export default function NewIssuePage() {
 
       router.push("/issues");
     } catch (error) {
+      setIsSubmitting(false);
       console.error("Error submitting the issue:", error);
     }
   };
@@ -77,7 +82,11 @@ export default function NewIssuePage() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit New Issue</Button>
+        {!isSubmitting ? (
+          <Button type="submit">Submit New Issue</Button>
+        ) : (
+          <ButtonLoading />
+        )}
       </form>
     </Form>
   );
