@@ -1,3 +1,4 @@
+import IssueBadge from "@/components/issue-badge";
 import db from "@/prisma/client";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -19,10 +20,12 @@ export default async function IssuePage({ params }: IssuePageProps) {
 
   return (
     <>
-      <p>{issue.title}</p>
+      <h2 className="text-3xl">{issue.title}</h2>
+      <div className="flex space-x-3 my-3">
+        <IssueBadge status={issue.status}></IssueBadge>
+        <p>{issue.createdAt.toDateString()}</p>
+      </div>
       <p>{issue.description}</p>
-      <p>{issue.status}</p>
-      <p>{issue.createdAt.toDateString()}</p>
     </>
   );
 }
