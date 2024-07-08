@@ -1,8 +1,12 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { AiFillBug } from "react-icons/ai";
+import clsx from "clsx";
 
 export default function Navbar() {
+  const currentPath = usePathname();
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
@@ -17,7 +21,10 @@ export default function Navbar() {
         {links.map((link) => (
           <Link
             key={link.href}
-            className="text-zinc-500 hover:text-zinc-800 transition-colors"
+            className={clsx("hover:text-zinc-800 transition-colors", {
+              "text-zinc-900": currentPath === link.href,
+              "text-zinc-500": currentPath !== link.href,
+            })}
             href={link.href}
           >
             {link.label}
