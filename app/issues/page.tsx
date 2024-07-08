@@ -13,7 +13,6 @@ import db from "@/prisma/client";
 import IssueBadge from "@/components/issue-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
-import delay from "delay";
 
 export default async function IssuesPage() {
   return (
@@ -32,7 +31,6 @@ export default async function IssuesPage() {
 
 async function TableSuspense() {
   const issues = await db.issue.findMany();
-  await delay(2000);
   return (
     <>
       <Table>
@@ -48,7 +46,7 @@ async function TableSuspense() {
           {issues.map((issue) => (
             <TableRow key={issue.id}>
               <TableCell className="font-medium">
-                {issue.title}
+                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
                 <div className="block md:hidden">{issue.status}</div>
               </TableCell>
               <TableCell className="hidden md:table-cell">
