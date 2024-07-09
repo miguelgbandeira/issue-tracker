@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -13,13 +12,15 @@ import db from "@/prisma/client";
 import IssueBadge from "@/components/issue-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
+import Link from "./Link";
+import NextLink from "next/link";
 
 export default async function IssuesPage() {
   return (
     <>
       <div>
         <Button className="mb-5">
-          <Link href={"/issues/new"}>New Issue</Link>
+          <NextLink href={"/issues/new"}>New Issue</NextLink>
         </Button>
       </div>
       <Suspense fallback={<TableSkeleton />}>
