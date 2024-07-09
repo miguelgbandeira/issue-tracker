@@ -126,3 +126,5 @@ function TableSkeleton() {
     </>
   );
 }
+
+export const dynamic = "force-dynamic";

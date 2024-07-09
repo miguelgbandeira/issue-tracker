@@ -60,6 +60,7 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
       }
 
       router.push("/issues");
+      router.refresh();
     } catch (error) {
       setIsSubmitting(false);
       console.error("Error submitting the issue:", error);
