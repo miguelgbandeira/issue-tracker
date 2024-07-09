@@ -25,7 +25,9 @@ export default function RootLayout({
         )}
       >
         <Navbar />
-        <main className="p-5">{children}</main>
+        <main className="p-5">
+          <div className="container">{children}</div>
+        </main>
       </body>
     </html>
   );

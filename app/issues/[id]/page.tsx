@@ -1,7 +1,7 @@
 import db from "@/prisma/client";
 import { notFound } from "next/navigation";
 import IssueDetails from "./issue-details";
-import IssueEditButton from "./issue-edit-button";
+import { IssueDeleteButton, IssueEditButton } from "./issue-buttons";
 
 interface IssuePageProps {
   params: { id: string };
@@ -19,12 +19,13 @@ export default async function IssuePage({ params }: IssuePageProps) {
   }
 
   return (
-    <div className="grid gap-5 md:grid-cols-2">
-      <div>
+    <div className="grid gap-5 sm:grid-cols-5">
+      <div className="sm:col-span-4">
         <IssueDetails issue={issue} />
       </div>
-      <div>
+      <div className="flex flex-col gap-5 lg:mx-8">
         <IssueEditButton issueId={issue.id} />
+        <IssueDeleteButton issueId={issue.id} />
       </div>
     </div>
   );

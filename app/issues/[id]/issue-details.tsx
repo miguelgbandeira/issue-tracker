@@ -12,7 +12,7 @@ export default function IssueDetails({ issue }: { issue: Issue }) {
         <IssueBadge status={issue.status}></IssueBadge>
         <p>{issue.createdAt.toDateString()}</p>
       </div>
-      <Card className="prose mt-4 p-5">
+      <Card className="prose mt-4 p-5 max-w-full">
         <ReactMarkdown>{issue.description}</ReactMarkdown>
       </Card>
     </>
