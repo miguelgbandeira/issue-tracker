@@ -1,7 +1,8 @@
 import db from "@/prisma/client";
 import { notFound } from "next/navigation";
+import { IssueDeleteButton } from "./issue-delete-button";
 import IssueDetails from "./issue-details";
-import { IssueDeleteButton, IssueEditButton } from "./issue-buttons";
+import IssueEditButton from "./issue-edit-button";
 
 interface IssuePageProps {
   params: { id: string };

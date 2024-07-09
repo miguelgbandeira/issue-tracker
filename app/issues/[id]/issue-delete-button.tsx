@@ -1,3 +1,4 @@
+"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,25 +11,35 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { SquarePen, Trash2 } from "lucide-react";
-import Link from "next/link";
-import React from "react";
-
-export function IssueEditButton({ issueId }: { issueId: string }) {
-  return (
-    <Button>
-      <SquarePen className="mr-2 h-4 min-w-4" />
-      <Link className="block sm:hidden" href={`/issues/${issueId}/edit`}>
-        Edit Issue
-      </Link>
-      <Link className="hidden sm:block" href={`/issues/${issueId}/edit`}>
-        Edit
-      </Link>
-    </Button>
-  );
-}
+import { Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function IssueDeleteButton({ issueId }: { issueId: string }) {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const onClick = async () => {
+    try {
+      const response = await fetch(`/api/issues/${issueId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit the issue");
+      }
+
+      router.push("/issues");
+      router.refresh();
+    } catch (error) {
+      setIsSubmitting(false);
+      console.error("Error deleting the issue:", error);
+    }
+  };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -48,8 +59,11 @@ export function IssueDeleteButton({ issueId }: { issueId: string }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-red-500 hover:bg-red-400">
-            Continue
+          <AlertDialogAction
+            onClick={onClick}
+            className="bg-red-500 hover:bg-red-400"
+          >
+            {isSubmitting ? "Deleting..." : "Delete"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
