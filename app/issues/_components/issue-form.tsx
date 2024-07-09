@@ -1,6 +1,6 @@
 "use client";
 
-import { createIssueSchema } from "@/app/validationSchemas";
+import { issueSchema } from "@/app/validationSchemas";
 import { Button, ButtonLoading } from "@/components/ui/button";
 import {
   Form,
@@ -23,11 +23,11 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 export default function IssueForm({ issue }: { issue?: IssueFormData }) {
   const form = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema),
+    resolver: zodResolver(issueSchema),
   });
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
