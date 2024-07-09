@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import delay from "delay";
 
 export function IssueDeleteButton({ issueId }: { issueId: string }) {
   const router = useRouter();
@@ -23,7 +22,6 @@ export function IssueDeleteButton({ issueId }: { issueId: string }) {
 
   const onClick = async () => {
     try {
-      delay(4000);
       setIsSubmitting(true);
       const response = await fetch(`/api/issues/${issueId}`, {
         method: "DELETE",
