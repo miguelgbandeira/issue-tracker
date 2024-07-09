@@ -29,3 +29,18 @@ export async function PATCH(
 
   return NextResponse.json(updatedIssue, { status: 200 });
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const issue = await db.issue.findUnique({ where: { id: params.id } });
+
+  if (!issue) {
+    return NextResponse.json({ error: "Issue not found" }, { status: 404 });
+  }
+
+  await db.issue.delete({ where: { id: params.id } });
+
+  return NextResponse.json({ message: "Issue deleted" }, { status: 200 });
+}
