@@ -11,9 +11,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import delay from "delay";
 
 export function IssueDeleteButton({ issueId }: { issueId: string }) {
   const router = useRouter();
@@ -22,6 +23,8 @@ export function IssueDeleteButton({ issueId }: { issueId: string }) {
 
   const onClick = async () => {
     try {
+      delay(4000);
+      setIsSubmitting(true);
       const response = await fetch(`/api/issues/${issueId}`, {
         method: "DELETE",
         headers: {
@@ -45,8 +48,9 @@ export function IssueDeleteButton({ issueId }: { issueId: string }) {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant={"destructive"}>
-            <Trash2 className="mr-2 h-4 min-w-4" />
+          <Button variant={"destructive"} disabled={isSubmitting}>
+            {!isSubmitting && <Trash2 className="mr-2 h-4 min-w-4" />}
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             <div className="block sm:hidden">Delete Issue</div>
             <div className="hidden sm:block">Delete</div>
           </Button>
@@ -65,7 +69,7 @@ export function IssueDeleteButton({ issueId }: { issueId: string }) {
               onClick={onClick}
               className="bg-red-500 hover:bg-red-400"
             >
-              {isSubmitting ? "Deleting..." : "Delete"}
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
