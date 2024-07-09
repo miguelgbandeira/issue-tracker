@@ -1,4 +1,6 @@
+import IssueBadge from "@/components/issue-badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -9,11 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import db from "@/prisma/client";
-import IssueBadge from "@/components/issue-badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import NextLink from "next/link";
 import { Suspense } from "react";
 import Link from "./Link";
-import NextLink from "next/link";
 
 export default async function IssuesPage() {
   return (
