@@ -1,6 +1,10 @@
 import db from "@/prisma/client";
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
-import IssueForm from "@/app/issues/_components/issue-form";
+
+const IssueForm = dynamic(() => import("@/app/issues/_components/issue-form"), {
+  ssr: false,
+});
 
 export default async function IssueEditPage({
   params,
