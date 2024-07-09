@@ -2,7 +2,6 @@ import IssueBadge from "@/components/issue-badge";
 import { Card } from "@/components/ui/card";
 import db from "@/prisma/client";
 import { notFound } from "next/navigation";
-import React from "react";
 import ReactMarkdown from "react-markdown";
 
 interface IssuePageProps {
