@@ -5,6 +5,7 @@ import IssueDetails from "./issue-details";
 import IssueEditButton from "./issue-edit-button";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/_auth/authOptions";
+import AssigneeSelect from "./assign-user";
 
 interface IssuePageProps {
   params: { id: string };
@@ -29,6 +30,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
       </div>
       {session && (
         <div className="flex flex-col gap-5 lg:mx-8">
+          <AssigneeSelect />
           <IssueEditButton issueId={issue.id} />
           <IssueDeleteButton issueId={issue.id} />
         </div>
