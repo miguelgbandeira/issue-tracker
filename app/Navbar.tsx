@@ -2,9 +2,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import clsx from "clsx";
-import { useSession } from "next-auth/react";
-import { AiFillBug } from "react-icons/ai";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -14,6 +11,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
+import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { AiFillBug } from "react-icons/ai";
 
 export default function Navbar() {
   return (
@@ -36,7 +37,7 @@ export default function Navbar() {
 function AuthStatus() {
   const { status, data: session } = useSession();
 
-  if (status === "loading") return null;
+  if (status === "loading") return <Skeleton className="w-14 h-[20px]" />;
 
   if (status === "unauthenticated")
     return (
