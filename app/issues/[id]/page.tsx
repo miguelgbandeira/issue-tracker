@@ -30,7 +30,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
       </div>
       {session && (
         <div className="flex flex-col gap-5 lg:mx-8">
-          <AssigneeSelect />
+          <AssigneeSelect issue={issue} />
           <IssueEditButton issueId={issue.id} />
           <IssueDeleteButton issueId={issue.id} />
         </div>
