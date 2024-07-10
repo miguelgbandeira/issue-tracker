@@ -19,7 +19,7 @@ import { AiFillBug } from "react-icons/ai";
 export default function Navbar() {
   return (
     <nav className="mb-5 border-b px-5 py-3">
-      <div className="container">
+      <div className="container min-h-[32px] flex flex-col justify-center">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Link href={"/"}>
