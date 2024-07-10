@@ -14,19 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { toast, Toaster } from "react-hot-toast";
 
 export default function AssigneeSelect({ issue }: { issue: Issue }) {
-  const {
-    data: users,
-    error,
-    isLoading,
-  } = useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const data = await fetch("/api/users");
-      return data.json();
-    },
-    staleTime: 1000 * 60,
-    retry: 3,
-  });
+  const { data: users, error, isLoading } = useUsers();
 
   async function assignUser(userId: string) {
     try {
@@ -77,4 +65,16 @@ export default function AssigneeSelect({ issue }: { issue: Issue }) {
       <Toaster />
     </>
   );
+
+  function useUsers() {
+    return useQuery<User[]>({
+      queryKey: ["users"],
+      queryFn: async () => {
+        const data = await fetch("/api/users");
+        return data.json();
+      },
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 3,
+    });
+  }
 }
