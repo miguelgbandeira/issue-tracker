@@ -11,6 +11,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Issue, User } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function AssigneeSelect({ issue }: { issue: Issue }) {
   const {
@@ -27,17 +28,25 @@ export default function AssigneeSelect({ issue }: { issue: Issue }) {
     retry: 3,
   });
 
-  function assignUser(userId: string) {
-    fetch(`/api/issues/${issue.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  async function assignUser(userId: string) {
+    try {
+      const response = await fetch(`/api/issues/${issue.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-      body: JSON.stringify({
-        assignedToUserId: userId === "unassigned" ? null : userId,
-      }),
-    });
+        body: JSON.stringify({
+          assignedToUserId: userId === "unassigned" ? null : userId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}`);
+      }
+    } catch (error) {
+      toast.error("Changes could not be saved. Please try again.");
+    }
   }
 
   if (error) return null;
@@ -65,6 +74,7 @@ export default function AssigneeSelect({ issue }: { issue: Issue }) {
           </SelectGroup>
         </SelectContent>
       </Select>
+      <Toaster />
     </>
   );
 }
