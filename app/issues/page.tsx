@@ -48,7 +48,9 @@ async function TableSuspense() {
             <TableRow key={issue.id}>
               <TableCell className="font-medium">
                 <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="block md:hidden">{issue.status}</div>
+                <div className="block md:hidden">
+                  <IssueBadge status={issue.status} />
+                </div>
               </TableCell>
               <TableCell className="hidden md:table-cell">
                 <IssueBadge status={issue.status} />
