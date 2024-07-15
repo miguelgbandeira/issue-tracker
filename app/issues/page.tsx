@@ -15,8 +15,14 @@ import NextLink from "next/link";
 import { Suspense } from "react";
 import Link from "./Link";
 import IssueStatusFilter from "./_components/issue-status-filter";
+import { Status } from "@prisma/client";
+import { stat } from "fs";
 
-export default async function IssuesPage() {
+type IssuesPageProps = {
+  searchParams?: { status?: Status };
+};
+
+export default async function IssuesPage({ searchParams }: IssuesPageProps) {
   return (
     <>
       <div className="flex justify-between">
@@ -26,14 +32,25 @@ export default async function IssuesPage() {
         </Button>
       </div>
       <Suspense fallback={<TableSkeleton />}>
-        <TableSuspense />
+        <TableSuspense searchParams={searchParams} />
       </Suspense>
     </>
   );
 }
 
-async function TableSuspense() {
-  const issues = await db.issue.findMany();
+async function TableSuspense({ searchParams }: IssuesPageProps) {
+  const statusList = Object.values(Status);
+
+  const status =
+    searchParams?.status && statusList.includes(searchParams.status)
+      ? searchParams.status
+      : undefined;
+  const issues = await db.issue.findMany({
+    where: {
+      status: status,
+    },
+  });
+
   return (
     <>
       <Table>
