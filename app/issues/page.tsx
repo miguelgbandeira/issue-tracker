@@ -14,11 +14,13 @@ import db from "@/prisma/client";
 import NextLink from "next/link";
 import { Suspense } from "react";
 import Link from "./Link";
+import IssueStatusFilter from "./_components/issue-status-filter";
 
 export default async function IssuesPage() {
   return (
     <>
-      <div>
+      <div className="flex justify-between">
+        <IssueStatusFilter />
         <Button className="mb-5">
           <NextLink href={"/issues/new"}>New Issue</NextLink>
         </Button>
