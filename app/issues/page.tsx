@@ -11,12 +11,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import db from "@/prisma/client";
+import { Status } from "@prisma/client";
 import NextLink from "next/link";
 import { Suspense } from "react";
 import Link from "./Link";
 import IssueStatusFilter from "./_components/issue-status-filter";
-import { Status } from "@prisma/client";
-import { stat } from "fs";
 
 type IssuesPageProps = {
   searchParams?: { status?: Status };
@@ -45,6 +44,7 @@ async function TableSuspense({ searchParams }: IssuesPageProps) {
     searchParams?.status && statusList.includes(searchParams.status)
       ? searchParams.status
       : undefined;
+
   const issues = await db.issue.findMany({
     where: {
       status: status,
