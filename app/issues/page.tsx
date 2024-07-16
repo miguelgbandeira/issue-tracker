@@ -17,9 +17,10 @@ import { Suspense } from "react";
 import Link from "./Link";
 import IssueStatusFilter from "./_components/issue-status-filter";
 import { ArrowUp } from "lucide-react";
+import Pagination from "@/components/Pagination";
 
 type IssuesPageProps = {
-  searchParams?: { status?: Status; orderBy?: keyof Issue };
+  searchParams?: { status?: Status; orderBy?: keyof Issue; page?: string };
 };
 
 export default async function IssuesPage({ searchParams }: IssuesPageProps) {
@@ -38,7 +39,15 @@ export default async function IssuesPage({ searchParams }: IssuesPageProps) {
   );
 }
 
+type TableProps = {
+  searchParams?: { status?: Status; orderBy?: keyof Issue; page?: string };
+  itemCount: number;
+  pageSize: number;
+};
+
 async function TableSuspense({ searchParams }: IssuesPageProps) {
+  const currentPage = Number(searchParams?.page) || 1;
+  const pageSize = 10;
   const statusList = Object.values(Status);
 
   const columns: { label: string; value: keyof Issue; className?: string }[] = [
@@ -60,12 +69,18 @@ async function TableSuspense({ searchParams }: IssuesPageProps) {
     ? { [searchParams.orderBy]: "asc" as const }
     : undefined;
 
+  const where = {
+    status: status,
+  };
+
   const issues = await db.issue.findMany({
-    where: {
-      status: status,
-    },
+    where,
     orderBy: orderBy ? [orderBy] : undefined,
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
   });
+
+  const totalPages = await db.issue.count({ where });
 
   return (
     <>
@@ -108,6 +123,7 @@ async function TableSuspense({ searchParams }: IssuesPageProps) {
           ))}
         </TableBody>
       </Table>
+      <Pagination pageSize={pageSize} itemCount={totalPages} />
     </>
   );
 }
