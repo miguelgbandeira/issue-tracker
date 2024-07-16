@@ -11,14 +11,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import db from "@/prisma/client";
-import { Status } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import NextLink from "next/link";
 import { Suspense } from "react";
 import Link from "./Link";
 import IssueStatusFilter from "./_components/issue-status-filter";
+import { ArrowUp } from "lucide-react";
 
 type IssuesPageProps = {
-  searchParams?: { status?: Status };
+  searchParams?: { status?: Status; orderBy?: keyof Issue };
 };
 
 export default async function IssuesPage({ searchParams }: IssuesPageProps) {
@@ -40,6 +41,12 @@ export default async function IssuesPage({ searchParams }: IssuesPageProps) {
 async function TableSuspense({ searchParams }: IssuesPageProps) {
   const statusList = Object.values(Status);
 
+  const columns: { label: string; value: keyof Issue; className?: string }[] = [
+    { label: "Issue", value: "title" },
+    { label: "Status", value: "status", className: "hidden md:table-cell" },
+    { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
+  ];
+
   const status =
     searchParams?.status && statusList.includes(searchParams.status)
       ? searchParams.status
@@ -57,9 +64,20 @@ async function TableSuspense({ searchParams }: IssuesPageProps) {
         <TableCaption>A list of the issues.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead>Issue</TableHead>
-            <TableHead className="hidden md:table-cell">Status</TableHead>
-            <TableHead className="hidden md:table-cell">Created</TableHead>
+            {columns.map((column) => (
+              <TableHead className={column.className} key={column.value}>
+                <NextLink
+                  href={{
+                    query: { ...searchParams, orderBy: column.value },
+                  }}
+                >
+                  {column.label}
+                </NextLink>
+                {column.value === searchParams?.orderBy && (
+                  <ArrowUp className="inline w-4 ml-1" />
+                )}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -71,7 +89,7 @@ async function TableSuspense({ searchParams }: IssuesPageProps) {
                   <IssueBadge status={issue.status} />
                 </div>
               </TableCell>
-              <TableCell className="hidden md:table-cell">
+              <TableCell>
                 <IssueBadge status={issue.status} />
               </TableCell>
               <TableCell className="hidden md:table-cell">
