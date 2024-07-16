@@ -34,7 +34,10 @@ export default function IssueStatusFilter() {
   }
   return (
     <>
-      <Select onValueChange={(value) => addQueryParameter(value)}>
+      <Select
+        defaultValue={searchParams.get("status") || ""}
+        onValueChange={(value) => addQueryParameter(value)}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
