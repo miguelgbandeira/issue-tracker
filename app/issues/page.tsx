@@ -52,10 +52,19 @@ async function TableSuspense({ searchParams }: IssuesPageProps) {
       ? searchParams.status
       : undefined;
 
+  const validOrderBy = (value: any): value is keyof Issue => {
+    return columns.map((column) => column.value).includes(value);
+  };
+
+  const orderBy = validOrderBy(searchParams?.orderBy)
+    ? { [searchParams.orderBy]: "asc" as const }
+    : undefined;
+
   const issues = await db.issue.findMany({
     where: {
       status: status,
     },
+    orderBy: orderBy ? [orderBy] : undefined,
   });
 
   return (
