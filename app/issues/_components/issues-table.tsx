@@ -10,8 +10,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Issue, Status } from "@prisma/client";
-import { ArrowUp, Link } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import NextLink from "next/link";
+import Link from "../Link";
 
 type IssuesPageProps = {
   searchParams?: IssueQuery;

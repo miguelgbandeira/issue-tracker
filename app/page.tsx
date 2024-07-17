@@ -1,3 +1,7 @@
-export default function Home() {
-  return <div>Hello World!</div>;
+"use server";
+
+import LatestIssues from "@/app/latest-issues";
+
+export default async function Home() {
+  return <LatestIssues />;
 }
