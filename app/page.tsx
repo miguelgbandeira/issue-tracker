@@ -1,8 +1,7 @@
-"use server";
-
 import LatestIssues from "@/app/_components/latest-issues";
 import IssuesSummary from "@/app/_components/issues-summary";
 import db from "@/prisma/client";
+import IssuesChart from "./_components/issues-chart";
 
 export default async function Home() {
   const openCount = await db.issue.count({
@@ -22,7 +21,7 @@ export default async function Home() {
   });
   // return <LatestIssues />;
   return (
-    <IssuesSummary
+    <IssuesChart
       openCount={openCount}
       inProgressCount={inProgressCount}
       closedCount={closedCount}

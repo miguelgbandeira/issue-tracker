@@ -2,12 +2,10 @@
 
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import db from "@/prisma/client";
 import { Status } from "@prisma/client";
 import Link from "next/link";
 
