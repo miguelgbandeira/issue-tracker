@@ -1,17 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { SquarePen } from "lucide-react";
+import { SquarePen, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 export default function IssueEditButton({ issueId }: { issueId: string }) {
   return (
-    <Button>
-      <SquarePen className="mr-2 h-4 min-w-4" />
-      <Link className="block sm:hidden" href={`/issues/${issueId}/edit`}>
-        Edit Issue
-      </Link>
-      <Link className="hidden sm:block" href={`/issues/${issueId}/edit`}>
-        Edit
-      </Link>
-    </Button>
+    <Link href={`/issues/${issueId}/edit`} passHref>
+      <Button className="w-full">
+        <SquarePen className="mr-2 h-4 min-w-4" />
+        <div className="block sm:hidden">Edit</div>
+        <div className="hidden sm:block">Edit Issue</div>
+      </Button>
+    </Link>
   );
 }
