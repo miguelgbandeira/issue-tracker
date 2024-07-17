@@ -34,9 +34,9 @@ export default async function IssuesSummary({
     { label: "Closed Issues", value: closedCount, status: "CLOSED" },
   ];
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 justify-center p-4">
       {containers.map((container) => (
-        <Card key={container.label}>
+        <Card key={container.label} className="sm:w-1/4">
           <Link href={`/issues?status=${container.status}`}>
             <CardHeader>
               <CardDescription className="mb-4 font-medium">
