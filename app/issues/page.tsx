@@ -9,6 +9,7 @@ import {
   IssueQuery,
   IssuesTable,
 } from "./_components/issues-table";
+import { Metadata } from "next";
 
 type IssuesPageProps = {
   searchParams?: IssueQuery;
@@ -60,3 +61,8 @@ export default async function IssuesPage({ searchParams }: IssuesPageProps) {
 }
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - List",
+  description: "Table list of all issues",
+};

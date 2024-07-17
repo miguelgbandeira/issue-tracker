@@ -6,6 +6,7 @@ import IssueEditButton from "./issue-edit-button";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/_auth/authOptions";
 import AssigneeSelect from "./assign-user";
+import { title } from "process";
 
 interface IssuePageProps {
   params: { id: string };
@@ -37,4 +38,12 @@ export default async function IssuePage({ params }: IssuePageProps) {
       )}
     </div>
   );
+}
+
+export async function generateMetadata({ params }: IssuePageProps) {
+  const issue = await db.issue.findUnique({ where: { id: params.id } });
+  return {
+    title: issue?.title,
+    description: "Details of issue " + issue?.title,
+  };
 }
