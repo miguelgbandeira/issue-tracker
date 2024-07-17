@@ -11,23 +11,17 @@ import db from "@/prisma/client";
 import { Status } from "@prisma/client";
 import Link from "next/link";
 
-export default async function IssuesSummary() {
-  const openCount = await db.issue.count({
-    where: {
-      status: "OPEN",
-    },
-  });
-  const inProgressCount = await db.issue.count({
-    where: {
-      status: "IN_PROGRESS",
-    },
-  });
-  const closed = await db.issue.count({
-    where: {
-      status: "CLOSED",
-    },
-  });
+type Props = {
+  openCount: number;
+  inProgressCount: number;
+  closedCount: number;
+};
 
+export default async function IssuesSummary({
+  openCount,
+  inProgressCount,
+  closedCount,
+}: Props) {
   const containers: {
     label: string;
     value: number;
@@ -39,7 +33,7 @@ export default async function IssuesSummary() {
       value: inProgressCount,
       status: "IN_PROGRESS",
     },
-    { label: "Closed Issues", value: closed, status: "CLOSED" },
+    { label: "Closed Issues", value: closedCount, status: "CLOSED" },
   ];
   return (
     <div className="flex gap-4">
