@@ -19,12 +19,21 @@ export default async function Home() {
       status: "CLOSED",
     },
   });
-  // return <LatestIssues />;
   return (
-    <IssuesChart
-      openCount={openCount}
-      inProgressCount={inProgressCount}
-      closedCount={closedCount}
-    />
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="flex flex-col gap-5">
+        <IssuesSummary
+          openCount={openCount}
+          inProgressCount={inProgressCount}
+          closedCount={closedCount}
+        />
+        <IssuesChart
+          openCount={openCount}
+          inProgressCount={inProgressCount}
+          closedCount={closedCount}
+        />
+      </div>
+      <LatestIssues />
+    </div>
   );
 }
