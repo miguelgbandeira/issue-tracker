@@ -2,6 +2,7 @@ import Pagination from "@/components/Pagination";
 import { Button } from "@/components/ui/button";
 import db from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
+import { Metadata } from "next";
 import NextLink from "next/link";
 import IssueStatusFilter from "./_components/issue-status-filter";
 import {
@@ -9,7 +10,6 @@ import {
   IssueQuery,
   IssuesTable,
 } from "./_components/issues-table";
-import { Metadata } from "next";
 
 type IssuesPageProps = {
   searchParams?: IssueQuery;

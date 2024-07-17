@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { SquarePen, Trash2 } from "lucide-react";
+import { SquarePen } from "lucide-react";
 import Link from "next/link";
 
 export default function IssueEditButton({ issueId }: { issueId: string }) {

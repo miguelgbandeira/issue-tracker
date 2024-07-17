@@ -1,7 +1,6 @@
 import IssueBadge from "@/components/issue-badge";
 import { Card } from "@/components/ui/card";
 import { Issue } from "@prisma/client";
-import React from "react";
 import ReactMarkdown from "react-markdown";
 
 export default function IssueDetails({ issue }: { issue: Issue }) {

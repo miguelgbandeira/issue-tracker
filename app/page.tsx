@@ -1,8 +1,8 @@
-import LatestIssues from "@/app/_components/latest-issues";
 import IssuesSummary from "@/app/_components/issues-summary";
+import LatestIssues from "@/app/_components/latest-issues";
 import db from "@/prisma/client";
-import IssuesChart from "./_components/issues-chart";
 import { Metadata } from "next";
+import IssuesChart from "./_components/issues-chart";
 
 export default async function Home() {
   const openCount = await db.issue.count({
