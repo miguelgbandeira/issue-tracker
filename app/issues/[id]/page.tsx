@@ -1,13 +1,12 @@
+import authOptions from "@/app/_auth/authOptions";
 import db from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
+import { cache } from "react";
+import AssigneeSelect from "./assign-user";
 import { IssueDeleteButton } from "./issue-delete-button";
 import IssueDetails from "./issue-details";
 import IssueEditButton from "./issue-edit-button";
-import { getServerSession } from "next-auth";
-import authOptions from "@/app/_auth/authOptions";
-import AssigneeSelect from "./assign-user";
-import { title } from "process";
-import { cache } from "react";
 
 interface IssuePageProps {
   params: { id: string };
