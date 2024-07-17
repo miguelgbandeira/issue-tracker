@@ -7,18 +7,24 @@ import { getServerSession } from "next-auth";
 import authOptions from "@/app/_auth/authOptions";
 import AssigneeSelect from "./assign-user";
 import { title } from "process";
+import { cache } from "react";
 
 interface IssuePageProps {
   params: { id: string };
 }
 
+const fetchIssue = cache(async (issueId: string) =>
+  db.issue.findUnique({
+    where: {
+      id: issueId,
+    },
+  })
+);
+
 export default async function IssuePage({ params }: IssuePageProps) {
   const session = await getServerSession(authOptions);
-  const issue = await db.issue.findUnique({
-    where: {
-      id: params.id,
-    },
-  });
+
+  const issue = await fetchIssue(params.id);
 
   if (!issue) {
     notFound();
@@ -41,7 +47,7 @@ export default async function IssuePage({ params }: IssuePageProps) {
 }
 
 export async function generateMetadata({ params }: IssuePageProps) {
-  const issue = await db.issue.findUnique({ where: { id: params.id } });
+  const issue = await fetchIssue(params.id);
   return {
     title: issue?.title,
     description: "Details of issue " + issue?.title,
