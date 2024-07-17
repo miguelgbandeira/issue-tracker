@@ -1,9 +1,10 @@
+import Navbar from "@/app/_components/Navbar";
 import { cn } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AuthProvider from "./_auth/Provider";
 import "./globals.css";
-import Navbar from "@/app/_components/Navbar";
 import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -29,6 +30,7 @@ export default function RootLayout({
         <QueryClientProvider>
           <AuthProvider>
             <Navbar />
+            <Analytics />
             <main className="p-5">
               <div className="container">{children}</div>
             </main>
