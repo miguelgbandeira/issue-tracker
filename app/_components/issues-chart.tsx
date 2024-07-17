@@ -47,7 +47,7 @@ export default function IssuesChart({
             accessibilityLayer
             data={data}
             margin={{
-              top: 20,
+              top: 40,
             }}
           >
             <CartesianGrid vertical={false} />
