@@ -31,6 +31,8 @@ export default function AssigneeSelect({ issue }: { issue: Issue }) {
 
       if (!response.ok) {
         throw new Error(`Error ${response.status}`);
+      } else {
+        toast.success("User assigned successfully");
       }
     } catch (error) {
       toast.error("Changes could not be saved. Please try again.");

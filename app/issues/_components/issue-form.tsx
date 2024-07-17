@@ -1,6 +1,7 @@
 "use client";
 
 import { issueSchema } from "@/app/validationSchemas";
+import IssueBadge from "@/components/issue-badge";
 import { Button, ButtonLoading } from "@/components/ui/button";
 import {
   Form,
@@ -11,8 +12,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
+import { Issue, Status } from "@prisma/client";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,9 +33,15 @@ type IssueFormData = z.infer<typeof issueSchema>;
 export default function IssueForm({ issue }: { issue?: Issue }) {
   const form = useForm<IssueFormData>({
     resolver: zodResolver(issueSchema),
+    defaultValues: {
+      title: issue?.title || "",
+      description: issue?.description || "",
+      status: issue?.status || "OPEN",
+    },
   });
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const statusList = Object.values(Status);
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
@@ -77,6 +91,35 @@ export default function IssueForm({ issue }: { issue?: Issue }) {
                   placeholder="Title"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={issue?.status ? issue?.status : "OPEN"}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a status" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {statusList.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        <IssueBadge status={status} />
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
