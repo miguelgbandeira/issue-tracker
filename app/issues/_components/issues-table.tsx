@@ -51,7 +51,9 @@ export function IssuesTable({ searchParams, issues }: IssuesPageProps) {
               </div>
             </TableCell>
             <TableCell>
-              <IssueBadge status={issue.status} />
+              <div className="hidden md:block">
+                <IssueBadge status={issue.status} />
+              </div>
             </TableCell>
             <TableCell className="hidden md:table-cell">
               {new Date(issue.createdAt).toDateString()}
